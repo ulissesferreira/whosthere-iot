@@ -1,12 +1,15 @@
 import subprocess
+import httplib, urllib
+
 from time import sleep
 from threading import Thread
 
 # Array of names
 occupant = ["Sofia"]
-
 # MAC addresses for our members
 address = ["f0:03:8c:ff:7b:27"]
+#User ids?
+userid = ["123"]
 
 # Sleep once right when this script is called to give the Pi enough time
 # to connect to the network
@@ -40,7 +43,14 @@ def whosHere(i):
             print(occupant[i] + "'s device is connected to your network")
             if presentSent[i] == 0:
                 # Device found, send it to Gcloud - TODO
-
+                params = urllib.urlencode({'token': '0uP54QhRuOi0LwtH2MIAr4Zs', 'text': occupant[i], 'user_id': userid[i]})
+                headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+                conn = httplib.HTTPConnection("us-central1-upframe-whosthere.cloudfunctions.net:80")
+                conn.request("POST", "/add", params, headers)
+                response = conn.getresponse()
+                print response.status, response.reason
+                data = response.read()
+                conn.close()
                 # End
                 print(occupant[i] + " present streamed")
                 # Reset counters so another stream isn't sent if the device
@@ -63,7 +73,14 @@ def whosHere(i):
                 firstRun[i] = 0
                 if notPresentSent[i] == 0:
                     # Stream that someone left - TODO
-
+                    params = urllib.urlencode({'token': '0uP54QhRuOi0LwtH2MIAr4Zs', 'text': occupant[i], 'user_id': userid[i]})
+                    headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+                    conn = httplib.HTTPConnection("us-central1-upframe-whosthere.cloudfunctions.net:80")
+                    conn.request("POST", "/remove", params, headers)
+                    response = conn.getresponse()
+                    print response.status, response.reason
+                    data = response.read()
+                    conn.close()
                     # End stream
                     print(occupant[i] + " not present streamed")
                     # Reset counters so another stream isn't sent if the device
