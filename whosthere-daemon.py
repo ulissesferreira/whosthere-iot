@@ -1,23 +1,16 @@
 import subprocess
-import requests
 from time import sleep
 from threading import Thread
 
-#from ISStreamer.Streamer import Streamer
+# Array of names
+occupant = ["Sofia"]
 
-# Edit these for how many people/devices you want to track
-occupant = ["Ulisses"]
-
-# MAC addresses for our phones
-address = ["DC:85:DE:F2:23:E1"]
+# MAC addresses for our members
+address = ["f0:03:8c:ff:7b:27"]
 
 # Sleep once right when this script is called to give the Pi enough time
 # to connect to the network
 sleep(60)
-
-# Initialize the Initial State streamer
-# Be sure to add your unique access key
-#streamer = Streamer(bucket_name=":office:Who's at the Office?", bucket_key="office_presence", access_key="Your_Access_Key")
 
 # Some arrays to help minimize streaming and account for devices
 # disappearing from the network when asleep
@@ -46,13 +39,9 @@ def whosHere(i):
         if address[i] in output:
             print(occupant[i] + "'s device is connected to your network")
             if presentSent[i] == 0:
-                # Stream that device is present
-                #streamer.log(occupant[i],":office:")
-                #streamer.flush()
-                # STREAM THAT DEVICE IS PRESENT
-                r = requests.post('https://us-central1-upframe-whosthere.cloudfunctions.net/add', data = {'text' : occupant[i], 'token' : '0uP54QhRuOi0LwtH2MIAr4Zs', 'user_id': occupant[i].replace(" ", "") })
-                print(r.text)
+                # Device found, send it to Gcloud - TODO
 
+                # End
                 print(occupant[i] + " present streamed")
                 # Reset counters so another stream isn't sent if the device
                 # is still present
@@ -73,13 +62,9 @@ def whosHere(i):
             if counter[i] == 30 or firstRun[i] == 1:
                 firstRun[i] = 0
                 if notPresentSent[i] == 0:
-                    # Stream that device is not present
-                    #streamer.log(occupant[i],":no_entry_sign::office:")
-                    #streamer.flush()
-                    #-> Stream that person is not here
-                    r = requests.post('https://us-central1-upframe-whosthere.cloudfunctions.net/remove', data = {'text' : occupant[i], 'token' : '0uP54QhRuOi0LwtH2MIAr4Zs', 'user_id': occupant[i].replace(" ", "") })
-                    print(r.text)
+                    # Stream that someone left - TODO
 
+                    # End stream
                     print(occupant[i] + " not present streamed")
                     # Reset counters so another stream isn't sent if the device
                     # is still present
@@ -122,5 +107,6 @@ try:
 
 except KeyboardInterrupt:
     # On a keyboard interrupt signal threads to exit
+    print("interrupting")
     stop = True
     exit()
