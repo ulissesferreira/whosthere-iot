@@ -5,10 +5,8 @@ Whosthere Raspberry Daemon - This python script works as a presence detector tha
 - Settings:
 
 -> Whosthere-daemon.py is executed instantly after boot
-   -> Network scans run every 30 seconds
-   -> A device is considered offline if it isn't detected within 15 minutes 
-      (30 rounds of the above scans)
-
+-> Network scans run every 30 seconds
+-> A device is considered offline if it isn't detected within 15 minutes (30 rounds of the above scans)
 -> Checkwifi.sh is executed once every 5 minutes
 
 
