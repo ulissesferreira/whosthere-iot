@@ -2,6 +2,16 @@
 # whosthere-iot
 Whosthere Raspberry Daemon - This python script works as a presence detector that searches for known Upframe members' MAC addresses and translates them into our platform Office. We want Upframe members who arrive at Startup Lisboa to be automatically logged in so other members can know if they are reachable.
 
+- Settings:
+
+-> Whosthere-daemon.py is executed instantly after boot
+   -> Network scans run every 30 seconds
+   -> A device is considered offline if it isn't detected within 15 minutes 
+      (30 rounds of the above scans)
+
+-> Checkwifi.sh is executed once every 5 minutes
+
+
 ## Instalation
 
 ```
