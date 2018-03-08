@@ -42,7 +42,7 @@ def whosHere(i):
         if address[i] in output:
             print(occupant[i] + "'s device is connected to your network")
             if presentSent[i] == 0:
-                # Device found, send it to Gcloud - TODO
+                # Device found, send it to Gcloud
                 params = urllib.urlencode({'token': '0uP54QhRuOi0LwtH2MIAr4Zs', 'text': occupant[i], 'user_id': userid[i]})
                 headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
                 conn = httplib.HTTPConnection("us-central1-upframe-whosthere.cloudfunctions.net:80")
@@ -72,7 +72,7 @@ def whosHere(i):
             if counter[i] == 30 or firstRun[i] == 1:
                 firstRun[i] = 0
                 if notPresentSent[i] == 0:
-                    # Stream that someone left - TODO
+                    # Stream that someone left
                     params = urllib.urlencode({'token': '0uP54QhRuOi0LwtH2MIAr4Zs', 'text': occupant[i], 'user_id': userid[i]})
                     headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
                     conn = httplib.HTTPConnection("us-central1-upframe-whosthere.cloudfunctions.net:80")
